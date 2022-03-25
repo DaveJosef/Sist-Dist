@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 
 // bd
-const client = require('./db/redis');
+const subscriber = require('./db/redis');
 
 const app = express();
 app.use(express.json());
@@ -13,13 +13,33 @@ app.use(cors());
 app.get('/', (req, res) => {
 
     res.send('Estou inscrito');
-})
-
-client.on("message", (channel, message) => {
-    console.log({message});
 });
 
-client.subscribe("Bla-blah");
+app.post('/subscribe', (req, res) => {
+    const {channel} = req.body;
+
+    subscriber.subscribe(channel);
+    res.send('Estou inscrito');
+});
+
+app.delete('/subscribe', (req, res) => {
+    const {channel} = req.body;
+
+    subscriber.unsubscribe(channel);
+    res.send('Inscrição Removida');
+});
+
+app.delete('/quit', (req, res) => {
+    subscriber.quit();
+    res.send('Quitando');
+});
+
+subscriber.on("message", (channel, message) => {
+    // [HH:MM:SS] [<usuário>]: <mensagem>
+    console.log(message);
+});
+
+subscriber.subscribe("Bla-blah");
 
 app.listen(process.env.PORT, (err) => {
     if(err) throw err;

@@ -3,18 +3,38 @@ const express = require("express");
 const cors = require("cors");
 
 // bd
-const client = require('./db/redis');
+const publisher = require('./db/redis');
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
 
-app.get('/', (req, res) => {
+class Message {
+    constructor(user = "Pitchulinhas", content = "Hello, World!", time = new Date()) {
+        this.user = user;
+        this.content = content;
+        this.time = time;
+    }
+}
+Message.prototype.toString = function() {
+    return `[${this.time.toLocaleTimeString()}] [<${this.user}>]: <${this.content}>`
+}
 
-    client.publish("Bla-blah", JSON.stringify({nome: "José David"}))
+app.post('/publish', (req, res) => {
+    const {channel} = req.body;
+    const {message} = req.body;
+
+    let newMessage = new Message(message.user, message.content);
+
+    publisher.publish(channel, newMessage.toString());
     res.send('Publiquei');
 })
+
+app.delete('/quit', (req, res) => {
+    publisher.quit();
+    res.send('Quitando');
+});
 
 app.listen(process.env.PORT, (err) => {
     if(err) throw err;
