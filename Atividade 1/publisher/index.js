@@ -16,9 +16,10 @@ class Message {
         this.content = content;
         this.time = time;
     }
-}
-Message.prototype.toString = function() {
-    return `[${this.time.toLocaleTimeString()}] [<${this.user}>]: <${this.content}>`
+
+    asString() {
+        return `[${this.time.toLocaleTimeString()}] [<${this.user}>]: <${this.content}>`;
+    }
 }
 
 app.post('/publish', (req, res) => {
@@ -27,9 +28,9 @@ app.post('/publish', (req, res) => {
 
     let newMessage = new Message(message.user, message.content);
 
-    publisher.publish(channel, newMessage.toString());
+    publisher.publish(channel, newMessage.asString());
     res.send('Publiquei');
-})
+});
 
 app.delete('/quit', (req, res) => {
     publisher.quit();

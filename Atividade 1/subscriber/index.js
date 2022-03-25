@@ -10,11 +10,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
 
-app.get('/', (req, res) => {
-
-    res.send('Estou inscrito');
-});
-
 app.post('/subscribe', (req, res) => {
     const {channel} = req.body;
 
@@ -39,11 +34,7 @@ subscriber.on("message", (channel, message) => {
     console.log(message);
 });
 
-subscriber.subscribe("Bla-blah");
-
 app.listen(process.env.PORT, (err) => {
     if(err) throw err;
     console.log(`Server listening on port ${process.env.PORT}`);
 });
-
-console.log();
