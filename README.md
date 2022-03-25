@@ -12,6 +12,8 @@ REDIS_PORT = 6379
 PORT = 3001
 ```
 
+Após isso, é necessário iniciar os dois servidores Express, tanto o publisher (utilizado para enviar mensagens nos canais), quanto o subscriber (que será notificado a cada mensagem nova nos canais nos quais estiver inscrito).
+
 # Rotas
 Do Publisher:
 
