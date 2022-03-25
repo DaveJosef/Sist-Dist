@@ -35,7 +35,20 @@ DELETE /quit
 Do Subscriber:
 
 POST /subscribe
+* aceita um JSON com o seguinte formato:
+```
+{
+	"channel": "Pitchulinhas"
+}
+```
 
 DELETE /subscribe
+* aceita um JSON com o seguinte formato:
+```
+{
+	"channel": "Pitchulinhas"
+}
+```
+
 
 DELETE /quit
