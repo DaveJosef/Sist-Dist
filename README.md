@@ -12,43 +12,22 @@ REDIS_PORT = 6379
 PORT = 3001
 ```
 
-Após isso, é necessário iniciar os dois servidores Express, tanto o publisher (utilizado para enviar mensagens nos canais), quanto o subscriber (que será notificado a cada mensagem nova nos canais nos quais estiver inscrito).
+Após isso, é necessário iniciar os servidores Express (Um dos quais é utilizado para simular um amiguinho, e o outro, outro amiguinho :3).
 
 # Rotas
 Do Publisher:
 
 POST /publish
 * aceita um JSON com o seguinte formato:
-```
-{
-	"channel": "Pitchulinhas",
+```{
 	"message": {
-		"user": "Pitchulinhas",
+		"user": {
+			"id": 0,
+			"username": "Diogo"
+		},
 		"content": "Olá, Mundo!"
 	}
 }
 ```
-
-DELETE /quit
-
-# Rotas
-Do Subscriber:
-
-POST /subscribe
-* aceita um JSON com o seguinte formato:
-```
-{
-	"channel": "Pitchulinhas"
-}
-```
-
-DELETE /subscribe
-* aceita um JSON com o seguinte formato:
-```
-{
-	"channel": "Pitchulinhas"
-}
-```
-
 
 DELETE /quit
