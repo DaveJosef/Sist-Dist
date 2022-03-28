@@ -15,7 +15,6 @@ PORT = 3001
 Após isso, é necessário iniciar os servidores Express (Um dos quais é utilizado para simular um amiguinho, e o outro, outro amiguinho :3).
 
 # Rotas
-Do Publisher:
 
 POST /publish
 * aceita um JSON com o seguinte formato:
@@ -31,3 +30,4 @@ POST /publish
 ```
 
 DELETE /quit
+* serve para desconectar o cliente.
