@@ -12,11 +12,20 @@ const messageUtils = require('./utils/messageUtils');
 // bd
 const client = require("./db/redis");
 
+// users
+const dbUsers = [
+  registeredUser1 = {
+    id: 0,
+    username: "Diogo",
+  },
+  registeredUser2 = {
+    id: 1,
+    username: "Anna",
+  }
+];
+
 // context vars
-let authUser = {
-  id: 0,
-  username: "Diogo",
-};
+let authUser = null;
 let currentChannel = {
   channelName: "Pitchulinhas"
 };
@@ -85,7 +94,29 @@ const verifyConnetion = async(req, res, next) => {
   next();
 }
 
-app.post("/publish", verifyConnetion, async(req, res) => {
+const verifyAuth = async(req, res, next) => {
+
+  if (!authUser) {
+    return res.send("Usuario nao autenticado");
+  }
+
+  next();
+}
+
+app.post("/login", async(req, res) => {
+  const { username } = req.body;
+
+  userFound = dbUsers.find(user => user.username === username);
+
+  if (userFound) {
+    authUser = userFound;
+    res.send("Autenticado com Sucesso");
+  } else {
+    res.send("Usuario nao encontrado");
+  }
+});
+
+app.post("/publish", verifyConnetion, verifyAuth, async(req, res) => {
   const { message } = req.body;
 
   await sendMessage(publisher, currentChannel, message);
@@ -93,7 +124,7 @@ app.post("/publish", verifyConnetion, async(req, res) => {
   res.send("Publiquei");
 });
 
-app.delete("/quit", verifyConnetion, async(req, res) => {
+app.delete("/quit", verifyConnetion, verifyAuth, async(req, res) => {
   await sendMessage(publisher, currentChannel, {
     user: authUser,
     content: "Exited the chat."
@@ -111,7 +142,7 @@ app.delete("/quit", verifyConnetion, async(req, res) => {
 )();
 
 subscriber.on("message", (channel, message) => {
-  if (message === null) {
+  if (message === null || !authUser) {
     return;
   }
 

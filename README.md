@@ -16,6 +16,13 @@ Após isso, é necessário iniciar os servidores Express (Um dos quais é utiliz
 
 # Rotas
 
+POST /login
+* aceita um JSON com o seguinte formato:
+```{
+	"username": "Diogo"
+}
+```
+
 POST /publish
 * aceita um JSON com o seguinte formato:
 ```{
