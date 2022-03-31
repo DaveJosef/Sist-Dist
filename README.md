@@ -18,14 +18,16 @@ Após isso, é necessário iniciar os servidores Express (Um dos quais é utiliz
 
 POST /login
 * aceita um JSON com o seguinte formato:
-```{
+```
+{
 	"username": "Diogo"
 }
 ```
 
 POST /publish
 * aceita um JSON com o seguinte formato:
-```{
+```
+{
 	"message": {
 		"user": {
 			"id": 0,
